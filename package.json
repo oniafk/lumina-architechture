@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",
+    "@tweakpane/core": "^2.0.5",
     "clsx": "^2.1.1",
     "gsap": "^3.14.2",
     "lucide-react": "^0.575.0",
@@ -18,6 +19,7 @@
     "react-dom": "19.2.3",
     "tailwind-merge": "^3.5.0",
     "three": "^0.183.1",
+    "tweakpane": "^4.0.5",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
