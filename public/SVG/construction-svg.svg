@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="configurator-icon">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#08F7FE" /> <stop offset="100%" stop-color="#00bcd4" />
+    </linearGradient>
+  </defs>
+
+  <g class="cube-structure" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z" />
+    <path d="M50 10 L50 50 M10 30 L50 50 M90 30 L50 50 M50 90 L50 50" class="inner-lines" opacity="0.6"/>
+  </g>
+
+  <g class="config-elements" stroke="url(#primaryGradient)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="50" r="3" fill="#08F7FE" class="node" />
+    <circle cx="90" cy="70" r="3" fill="#08F7FE" class="node" />
+    <circle cx="10" cy="70" r="3" fill="#08F7FE" class="node" />
+
+    <path d="M75 55 A 25 25 0 0 1 50 75" class="config-arrow" />
+    <polyline points="47 72 50 75 47 78" class="config-arrow-head" />
+  </g>
+</svg>

@@ -1,0 +1,175 @@
+1. El Código SVG
+Puedes guardar esto como un archivo .svg o usarlo directamente como un componente en React.
+
+SVG
+
+2. Integración en tu página de Next.js (Home)
+A continuación, te muestro cómo integrar este SVG como un componente React reutilizable y cómo usarlo dentro del Link del footer que ya tienes para el configurador.
+
+Paso A: Crear el componente ConfiguratorIcon.js
+Crea un archivo nuevo (ej. components/icons/ConfiguratorIcon.js):
+
+JavaScript
+import React from 'react';
+
+const ConfiguratorIcon = ({ className = "w-12 h-12" }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 100"
+      className={`${className} group`}
+    >
+      <defs>
+        <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#08F7FE" /> {/* Usa stopColor en React */}
+          <stop offset="100%" stopColor="#00bcd4" />
+        </linearGradient>
+      </defs>
+
+      {/* Estructura principal (blanca/gris en hover) */}
+      <g
+        className="cube-structure transition-colors duration-300 group-hover:stroke-gray-400"
+        stroke="currentColor" // Hereda el color del texto (white en tu footer)
+        strokeWidth="1.5"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z" />
+        <path d="M50 10 L50 50 M10 30 L50 50 M90 30 L50 50 M50 90 L50 50" opacity="0.5" />
+      </g>
+
+      {/* Elementos de Configuración Interactivos */}
+      <g
+        className="config-elements"
+        stroke="url(#primaryGradient)"
+        strokeWidth="2"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="50" cy="50" r="3" fill="#08F7FE" />
+        <circle cx="90" cy="70" r="3" fill="#08F7FE" />
+        <circle cx="10" cy="70" r="3" fill="#08F7FE" />
+        <path d="M75 55 A 25 25 0 0 1 50 75" />
+        <polyline points="47 72 50 75 47 78" />
+      </g>
+    </svg>
+  );
+};
+
+export default ConfiguratorIcon;
+Paso B: Actualizar tu Home.js
+Ahora, importa y usa este icono en la sección del footer de tu archivo principal. He actualizado el enlace del "Customizer" para incluir el icono y aplicar estilos de hover.
+
+JavaScript
+// ... (tus imports existentes)
+import Link from "next/link";
+import { Play } from "lucide-react";
+import PhilosophyVideo from "@/components/ui/PhilosophyVideo";
+import GlobalCanvasLoader from "@/components/canvas/GlobalCanvasLoader";
+// Importa el nuevo icono
+import ConfiguratorIcon from "@/components/icons/ConfiguratorIcon";
+
+const heroImage = "https://lh3.googleusercontent.com/aida-public/AB6AXuA_cXrTjMdel4qpCgkPP7DpSTy4Wx12xV_M9rDZTv0LVrWAwprZknVbQeFobAYLUoLBI2xA8kYBlQFRwO1Viyw6iqiKTSytaUt4VvelCgHV8yte_jGjHr4eRNH-R2iIqOGXh0kYgHQd1LF74gd54IkSstM0RLvfsvPOqLsApc7e-v9p6lQ740BUXbJOzL2YPHMs38L6z3rtbpiALxQhWjhNxJlzuT08h8Ik5W99JiiIr9Th9Ol7v7xAReSo2Q3oCw7goDRa_2b--45A";
+
+export default function Home() {
+  return (
+    <div className="bg-background-light dark:bg-background-dark text-slate-800 dark:text-gray-100 font-display relative">
+      {/* ... (resto de tu código de navegación y hero) */}
+
+      {/* Footer (Actualizado) */}
+      <footer className="bg-black text-white pt-32 pb-12 px-6 md:px-12 lg:px-24 border-t border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col justify-between min-h-[60vh]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+            {/* ... (sección izquierda del footer: Start a Project, email, etc.) */}
+
+            {/* Sección derecha del footer (Donde está el enlace) */}
+            <div className="flex flex-col justify-between md:items-end">
+              <nav className="flex flex-col gap-6 text-right mb-16">
+                <Link href="/gallery" className="text-2xl font-light text-gray-400 hover:text-white transition-colors duration-300">
+                  Work
+                </Link>
+                <Link href="/about" className="text-2xl font-light text-gray-400 hover:text-white transition-colors duration-300">
+                  Studio
+                </Link>
+                <Link href="/contact" className="text-2xl font-light text-gray-400 hover:text-white transition-colors duration-300">
+                  Contact
+                </Link>
+
+                {/* --- ENLACE AL CONFIGURADOR ACTUALIZADO CON ICONO --- */}
+                <Link
+                  href="/customizer"
+                  className="group flex items-center gap-4 text-2xl font-light text-gray-400 hover:text-white transition-colors duration-300 text-right justify-end"
+                >
+                  <span>Facade Customizer</span>
+                  {/* Icono SVG con clases de tamaño y animación GSAP */}
+                  <ConfiguratorIcon className="w-10 h-10 configurator-nav-icon" />
+                </Link>
+                {/* -------------------------------------------------- */}
+              </nav>
+
+              {/* ... (iconos de redes sociales y copyright) */}
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+3. Ejemplo conceptual de Animación GSAP
+Para cargar el SVG con una animación (como pediste), necesitarás usar GSAP en tu componente. Aquí tienes un ejemplo de cómo podrías configurar una animación de "dibujado" (drawSVG) o revelado secuencial cuando se carga la página.
+
+Nota: Esto requiere que tengas instalado gsap y, opcionalmente, el plugin DrawSVGPlugin (que es parte de Club GreenSock, aunque puedes simularlo animando stroke-dashoffset). Aquí usaré una animación básica de opacidad y escala que no requiere plugins de pago.
+
+Puedes añadir este efecto en el mismo ConfiguratorIcon.js o en el Home.js usando un useEffect.
+
+Ejemplo de useEffect en Home.js:
+JavaScript
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+// ... otros imports
+
+export default function Home() {
+  const comp = useRef(null); // Ref para el contenedor principal
+
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      // Selector específico para el icono del configurador en el nav
+      const iconSelector = ".configurator-nav-icon";
+
+      // 1. Animación de Entrada (Carga)
+      gsap.from(`${iconSelector} .cube-structure path`, {
+        duration: 1.5,
+        opacity: 0,
+        stagger: 0.2,
+        ease: "power4.out",
+        delay: 0.5 // Espera un poco después de que carga la página
+      });
+
+      gsap.from(`${iconSelector} .config-elements`, {
+        duration: 1,
+        y: 20,
+        opacity: 0,
+        ease: "back.out(1.7)",
+        delay: 1.2
+      });
+
+      // 2. Animación Hover sutil (usando las clases de Tailwind 'group-hover'
+      // que ya añadimos en el componente SVG es más limpio, pero aquí tienes cómo
+      // hacerlo con GSAP si prefieres):
+      // const link = document.querySelector('a[href="/customizer"]');
+      // link.addEventListener('mouseenter', () => gsap.to(`${iconSelector} .config-arrow`, { rotation: 90, ... }));
+
+    }, comp); // Alcance de la ref
+
+    return () => ctx.revert(); // Limpieza
+  }, []);
+
+  return (
+    <div ref={comp} className="..."> {/* Añade la ref aquí */}
+      {/* ... resto del código */}
+    </div>
+  );
+}
+Este diseño y la integración coinciden con el estilo minimalista, tipografía tracking-tight y uso de colores de acento/oscuros de tu código original.
